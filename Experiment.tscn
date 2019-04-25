@@ -1,0 +1,167 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://sprites/gobot.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	$Skeleton/Root/Tip.global_position = $TipBody.global_position
+	$Skeleton/Root/Left.global_position = $LeftBody.global_position
+	$Skeleton/Root/Right.global_position = $RightBody.global_position
+	$Skeleton/Root.global_position = $RootBody.global_position
+	$Skeleton/Root/Bottom.global_position = $BottomBody.global_position
+	$MouseBody.global_position = get_global_mouse_position()"
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 50.0
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 204, 20 )
+
+[sub_resource type="CircleShape2D" id=4]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2( 0.278046, 0.793282 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( -19.5215, -36.1825 )
+texture = ExtResource( 1 )
+skeleton = NodePath("../Skeleton")
+polygon = PoolVector2Array( 245.602, 76.2535, 209.23, 118.081, 200.138, 128.083, 161.947, 111.716, 115.574, 116.262, 64.6536, 177.185, 63.7443, 303.576, 138.306, 354.496, 201.047, 364.498, 262.879, 369.044, 348.352, 336.31, 384.723, 238.107, 354.717, 152.634, 272.881, 131.72, 260.151, 122.627 )
+uv = PoolVector2Array( 38.0883, 8.87014, 32.5133, 15.2814, 31.1196, 16.8145, 25.2659, 14.3057, 18.1578, 15.0026, 10.3528, 24.3407, 10.2134, 43.7137, 21.6421, 51.5187, 31.259, 53.0518, 40.7364, 53.7487, 53.8376, 48.7312, 59.4126, 33.6788, 54.8132, 20.5776, 42.2695, 17.372, 40.3183, 15.9782 )
+polygons = [ PoolIntArray( 3, 4, 5, 6, 7, 8, 2 ), PoolIntArray( 2, 1, 0, 14, 13 ), PoolIntArray( 8, 9, 13, 2 ), PoolIntArray( 13, 12, 11, 10, 9 ) ]
+bones = [ NodePath("Root"), PoolRealArray( 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0 ), NodePath("Root/Right"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0 ), NodePath("Root/Bottom"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 ), NodePath("Root/Left"), PoolRealArray( 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 ), NodePath("Root/Tip"), PoolRealArray( 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 ) ]
+
+[node name="TipBody" type="RigidBody2D" parent="."]
+position = Vector2( 221.593, 66.0621 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TipBody"]
+shape = SubResource( 2 )
+
+[node name="RootBody" type="RigidBody2D" parent="."]
+position = Vector2( 195.277, 162.904 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RootBody"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="LeftBottom" type="DampedSpringJoint2D" parent="RootBody"]
+position = Vector2( -68.6456, 106.833 )
+node_a = NodePath("../../LeftBody")
+node_b = NodePath("../../BottomBody")
+
+[node name="BottomRight" type="DampedSpringJoint2D" parent="RootBody"]
+position = Vector2( 41.8807, 109.991 )
+node_a = NodePath("../../BottomBody")
+node_b = NodePath("../../RightBody")
+
+[node name="BottomRoot" type="DampedSpringJoint2D" parent="RootBody"]
+position = Vector2( -0.224548, 49.9905 )
+node_a = NodePath("../../BottomBody")
+node_b = NodePath("..")
+
+[node name="LeftRoot" type="DampedSpringJoint2D" parent="RootBody"]
+position = Vector2( -69.2105, 34.2015 )
+node_a = NodePath("../../LeftBody")
+node_b = NodePath("..")
+
+[node name="RightRoot" type="DampedSpringJoint2D" parent="RootBody"]
+position = Vector2( 85.7895, 47.8857 )
+node_a = NodePath("../../RightBody")
+node_b = NodePath("..")
+
+[node name="RootTip" type="DampedSpringJoint2D" parent="RootBody"]
+position = Vector2( 8.19653, -31.0621 )
+node_a = NodePath("..")
+node_b = NodePath("../../TipBody")
+
+[node name="LeftBody" type="RigidBody2D" parent="."]
+position = Vector2( 64.7508, 274.483 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBody"]
+shape = SubResource( 2 )
+
+[node name="RightBody" type="RigidBody2D" parent="."]
+position = Vector2( 305.906, 284.938 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBody"]
+shape = SubResource( 2 )
+
+[node name="BottomBody" type="RigidBody2D" parent="."]
+position = Vector2( 183.801, 274.411 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomBody"]
+shape = SubResource( 2 )
+
+[node name="Skeleton" type="Skeleton2D" parent="."]
+visible = false
+position = Vector2( 196.438, 151.206 )
+
+[node name="Root" type="Bone2D" parent="Skeleton"]
+position = Vector2( 2, 7 )
+rest = Transform2D( 1, 0, 0, 1, 2, 7 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Right" type="Bone2D" parent="Skeleton/Root"]
+position = Vector2( 91.676, 113.563 )
+rest = Transform2D( 1, 0, 0, 1, 91.676, 113.563 )
+
+[node name="Bottom" type="Bone2D" parent="Skeleton/Root"]
+position = Vector2( -3.06085, 125.142 )
+rest = Transform2D( 1, 0, 0, 1, -3.06085, 125.142 )
+
+[node name="Left" type="Bone2D" parent="Skeleton/Root"]
+position = Vector2( -138.833, 114.116 )
+rest = Transform2D( 1, 0, 0, 1, -138.833, 114.116 )
+
+[node name="Tip" type="Bone2D" parent="Skeleton/Root"]
+position = Vector2( 19.8173, -70.952 )
+rest = Transform2D( 1, 0, 0, 1, 19.8173, -70.952 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 8.16446, 431.55 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+margin_right = 408.0
+margin_bottom = 40.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 205.305, 20.6417 )
+shape = SubResource( 3 )
+
+[node name="MouseBody" type="KinematicBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseBody"]
+shape = SubResource( 4 )
+
